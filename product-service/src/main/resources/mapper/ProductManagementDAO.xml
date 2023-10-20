@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservices.productservice.repository.ProductManagementDAO">
+
+    <resultMap id="productDTO" type="ProductDTO">
+        <result column="product_ID"              property="productID" />
+        <result column="product_Name"              property="productName" />
+    </resultMap>
+
+    <select id="retrieveListProductInfo" resultType="productDTO">
+        <![CDATA[
+            SELECT '0001' as "productID"
+                 , 'BKK Order' as "productName"
+        ]]>
+    </select>
+
+</mapper>

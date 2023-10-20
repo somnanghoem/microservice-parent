@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservices.orderservice.repository.OrderManagementDAO">
+
+    <resultMap id="orderDTO" type="OrderDTO">
+        <result column="order_ID"              property="orderID" />
+        <result column="order_Name"              property="orderName" />
+    </resultMap>
+
+    <select id="retrieveListOrderInfo" resultType="orderDTO">
+        <![CDATA[
+            SELECT '0001' as "orderID"
+                 , 'BKK Order' as "OrderName"
+        ]]>
+    </select>
+
+</mapper>
