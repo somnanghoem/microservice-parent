@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.util</groupId>
             <artifactId>responseUtil</artifactId>
-            <version>0.0.1</version>
+            <version>1.0.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/src/main/resources/lib/responseUtil.jar</systemPath>
         </dependency>

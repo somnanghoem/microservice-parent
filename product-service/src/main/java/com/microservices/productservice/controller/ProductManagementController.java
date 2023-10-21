@@ -5,7 +5,7 @@ import com.microservices.productservice.dto.ProductDTO;
 import com.microservices.productservice.model.ProductListResponse;
 import com.microservices.productservice.service.APIConnectorService;
 import com.microservices.productservice.service.ProductManagementService;
-import com.util.responseUtil.util.*;
+import com.util.responseutil.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

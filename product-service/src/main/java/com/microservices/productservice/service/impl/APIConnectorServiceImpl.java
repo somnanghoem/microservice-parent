@@ -1,10 +1,9 @@
 package com.microservices.productservice.service.impl;
 
 import com.microservices.productservice.service.APIConnectorService;
-import com.util.responseUtil.util.DataUtil;
-import com.util.responseUtil.util.RequestData;
-import com.util.responseUtil.util.RequestHeader;
-import com.util.responseUtil.util.ResponseData;
+import com.util.responseutil.util.RequestData;
+import com.util.responseutil.util.RequestHeader;
+import com.util.responseutil.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -22,10 +21,8 @@ public class APIConnectorServiceImpl implements APIConnectorService {
     @Override
     public ResponseData<Map<String, Objects>> postRequest(RequestData requestData, String url ) throws Exception {
         try {
-
-            RequestHeader requestHeader = new RequestHeader("somnang","01", "en");
-            /***********************************
-             * Call to Order Service By WebClient
+            /*************************************
+             * Call to Other Service By WebClient
              *************************************/
             ResponseData result  = webClient.post()
                     .uri(url)
@@ -35,6 +32,25 @@ public class APIConnectorServiceImpl implements APIConnectorService {
                     .bodyToMono(ResponseData.class)
                     .block();
            return  result;
+        }catch ( Exception e) {
+            // TODO
+        }
+        return  new ResponseData<Map<String, Objects>>();
+    }
+
+    @Override
+    public ResponseData<Map<String, Objects>> getRequest(RequestData requestData, String url) throws Exception {
+        try {
+            /*************************************
+             * Call to Other Service By WebClient
+             *************************************/
+            ResponseData result  = webClient.get()
+                    .uri(url)
+                    .accept(MediaType.APPLICATION_JSON).header("Authorization", "{{authtoken}}")
+                    .retrieve()
+                    .bodyToMono(ResponseData.class)
+                    .block();
+            return  result;
         }catch ( Exception e) {
             // TODO
         }
