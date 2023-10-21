@@ -3,9 +3,11 @@ package com.microservices.orderservice.controller;
 import com.microservices.orderservice.dto.OrderDTO;
 import com.microservices.orderservice.model.OrderListResponse;
 import com.microservices.orderservice.service.OrderManagementService;
-import com.util.responseUtil.util.*;
+import com.util.responseutil.util.DataUtil;
+import com.util.responseutil.util.RequestData;
+import com.util.responseutil.util.ResponseData;
+import com.util.responseutil.util.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/order/v1")
 public class OrderManagementController {
 
    @Autowired
