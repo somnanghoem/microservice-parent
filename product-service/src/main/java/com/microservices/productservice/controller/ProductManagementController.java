@@ -42,9 +42,9 @@ public class ProductManagementController {
         RequestHeader requestHeader = new RequestHeader("somnang", "01", "en");
         RequestData requestBody = new RequestData<>(requestHeader, new DataUtil() );
 
-        ResponseData<Map<String, Objects>> responseResult =  aPIConnectorService.postRequest( requestBody , "http://127.0.0.1:6061/api/v1/get-list-order" );
+        ResponseData<Map<String, Objects>> responseResult =  aPIConnectorService.postRequest( requestBody , "http://order-service/api/v1/get-list-order" );
 
-       System.out.println( responseResult.getBody().get("orderList"));
+       //System.out.println( responseResult.getBody().get("orderList"));
 
         ResponseData<List<ProductListResponse>> responseData = new ResponseData<>(header, body);
         return  ResponseEntity.ok( responseData );

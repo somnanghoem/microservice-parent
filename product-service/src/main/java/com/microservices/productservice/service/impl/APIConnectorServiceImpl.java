@@ -16,7 +16,7 @@ import java.util.Objects;
 public class APIConnectorServiceImpl implements APIConnectorService {
 
     @Autowired
-    WebClient webClient;
+    WebClient.Builder webClientBuilder;
 
     @Override
     public ResponseData<Map<String, Objects>> postRequest(RequestData requestData, String url ) throws Exception {
@@ -24,7 +24,7 @@ public class APIConnectorServiceImpl implements APIConnectorService {
             /*************************************
              * Call to Other Service By WebClient
              *************************************/
-            ResponseData result  = webClient.post()
+            ResponseData result  = webClientBuilder.build().post()
                     .uri(url)
                     .accept(MediaType.APPLICATION_JSON).header("Authorization", "{{authtoken}}")
                     .bodyValue( requestData )
@@ -33,9 +33,8 @@ public class APIConnectorServiceImpl implements APIConnectorService {
                     .block();
            return  result;
         }catch ( Exception e) {
-            // TODO
+            throw e;
         }
-        return  new ResponseData<Map<String, Objects>>();
     }
 
     @Override
@@ -44,7 +43,7 @@ public class APIConnectorServiceImpl implements APIConnectorService {
             /*************************************
              * Call to Other Service By WebClient
              *************************************/
-            ResponseData result  = webClient.get()
+            ResponseData result  = webClientBuilder.build().get()
                     .uri(url)
                     .accept(MediaType.APPLICATION_JSON).header("Authorization", "{{authtoken}}")
                     .retrieve()

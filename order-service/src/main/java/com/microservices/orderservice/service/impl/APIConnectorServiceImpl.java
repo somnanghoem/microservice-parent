@@ -1,8 +1,7 @@
 package com.microservices.orderservice.service.impl;
 
 import com.microservices.orderservice.service.APIConnectorService;
-import com.util.responseUtil.util.RequestData;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.util.responseutil.util.RequestData;
 
 import java.util.Map;
 import java.util.Objects;
