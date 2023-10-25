@@ -17,7 +17,8 @@
         <module>product-service</module>
         <module>order-service</module>
         <module>discovery-server</module>
-        <module>api-geteway</module>
+        <module>api-gateway</module>
+        <module>security-service</module>
     </modules>
 
     <properties>
