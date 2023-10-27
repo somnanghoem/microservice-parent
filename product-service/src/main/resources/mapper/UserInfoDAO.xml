@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservices.productservice.repository.UserInfoDAO">
+
+    <resultMap id="userInfoDTO" type="UserInfoDTO">
+        <result column="user_name"              property="userName" />
+        <result column="user_type"              property="userType" />
+        <result column="user_status"            property="userStatus" />
+        <result column="user_password"          property="userPassword" />
+        <result column="password_change_date"   property="passwordChangeDate" />
+        <result column="password_change_time"   property="passwordChangeTime" />
+        <result column="first_login_date"       property="firstLoginDate" />
+        <result column="first_login_time"       property="firstLoginTime" />
+        <result column="last_login_date"        property="lastLoginDate" />
+        <result column="last_login_time"        property="lastLoginTime" />
+        <result column="master_user_name"       property="masterUserName" />
+        <result column="employee_id"            property="employeeID" />
+        <result column="create_by"              property="createBy" />
+        <result column="register_date"          property="createDate" />
+        <result column="register_time"          property="CreateTime" />
+        <result column="update_date"            property="updateDate" />
+        <result column="update_time"            property="updateTime" />
+        <result column="update_by"              property="updateBY" />
+    </resultMap>
+
+    <select id="retrieveUserInfo" resultType="userInfoDTO">
+        <![CDATA[
+          SELECT
+             user_name              AS "userName"
+            ,user_type              AS "userType"
+            ,user_status            AS "userStatus"
+            ,user_password          AS "userPassword"
+            ,password_change_date   AS "passwordChangeDate"
+            ,password_change_time   AS "passwordChangeTime"
+            ,first_login_date       AS "firstLoginDate"
+            ,first_login_time       AS "firstLoginTime"
+            ,last_login_date        AS "lastLoginDate"
+            ,last_login_time        AS "lastLoginTime"
+            ,master_user_name       AS "masterUserName"
+            ,employee_id            AS "employeeID"
+            ,create_by              AS "createBy"
+            ,register_date          AS "createDate"
+            ,register_time          AS "CreateTime"
+            ,update_date            AS "updateDate"
+            ,update_time            AS "updateTime"
+            ,update_by              AS "updateBY"
+          FROM USER_INFO
+          WHERE user_name = #{userName}
+        ]]>
+    </select>
+
+    <select id="retrieveUserInfoByUserNameForUpdate" resultType="userInfoDTO">
+        <![CDATA[
+          SELECT
+             user_name              AS "userName"
+            ,user_type              AS "userType"
+            ,user_status            AS "userStatus"
+            ,user_password          AS "userPassword"
+            ,password_change_date   AS "passwordChangeDate"
+            ,password_change_time   AS "passwordChangeTime"
+            ,first_login_date       AS "firstLoginDate"
+            ,first_login_time       AS "firstLoginTime"
+            ,last_login_date        AS "lastLoginDate"
+            ,last_login_time        AS "lastLoginTime"
+            ,master_user_name       AS "masterUserName"
+            ,employee_id            AS "employeeID"
+            ,create_by              AS "createBy"
+            ,register_date          AS "createDate"
+            ,register_time          AS "CreateTime"
+            ,update_date            AS "updateDate"
+            ,update_time            AS "updateTime"
+            ,update_by              AS "updateBY"
+          FROM USER_INFO
+          WHERE user_name = #{userName}
+          FOR UPDATE
+        ]]>
+    </select>
+
+    <insert id="registerUserInfo">
+        <![CDATA[
+            INSERT INTO USER_INFO (
+                      USER_NAME
+                    , USER_TYPE
+                    , USER_STATUS
+                    , USER_PASSWORD
+                    , PASSWORD_CHANGE_DATE
+                    , PASSWORD_CHANGE_TIME
+                    , FIRST_LOGIN_DATE
+                    , FIRST_LOGIN_TIME
+                    , LAST_LOGIN_DATE
+                    , LAST_LOGIN_TIME
+                    , MASTER_USER_NAME
+                    , EMPLOYEE_ID
+                    , CREATE_BY
+                    , REGISTER_DATE
+                    , REGISTER_TIME
+                    , UPDATE_DATE
+                    , UPDATE_TIME
+                    , UPDATE_BY
+                )
+                VALUES (
+                      #{userName}
+                    , #{userType}
+                    , #{userStatus}
+                    , #{userPassword}
+                    , COALESCE( #{passwordChangeDate}, '' )
+                    , COALESCE( #{passwordChangeTime}, '' )
+                    , COALESCE( #{firstLoginDate}, '' )
+                    , COALESCE( #{firstLoginTime}, '' )
+                    , COALESCE( #{lastLoginDate}, '' )
+                    , COALESCE( #{lastLoginTime}, '' )
+                    , COALESCE( #{masterUserName}, '' )
+                    , COALESCE( #{employeeID}, '' )
+                    , #{createBy}
+                    , #{createDate}
+                    , #{CreateTime}
+                    , #{updateDate}
+                    , #{updateTime}
+                    , #{updateBy}
+                )
+         ]]>
+    </insert>
+
+    <update id="updateUserInfo">
+        <![CDATA[
+            UPDATE  USER_INFO
+                SET  USER_STATUS 		= COALESCE( #{userStatus}, USER_STATUS )
+                , USER_PASSWORD 		= COALESCE( #{userPassword}	, USER_PASSWORD )
+                , PASSWORD_CHANGE_DATE 	= COALESCE( #{passwordChangeDate}, PASSWORD_CHANGE_DATE )
+                , PASSWORD_CHANGE_TIME 	= COALESCE( #{passwordChangeTime}, PASSWORD_CHANGE_TIME )
+                , FIRST_LOGIN_DATE 		= COALESCE(	#{firstLoginDate}, FIRST_LOGIN_DATE )
+                , FIRST_LOGIN_TIME 		= COALESCE( #{firstLoginTime} , FIRST_LOGIN_TIME )
+                , LAST_LOGIN_DATE 		= COALESCE( #{lastLoginDate}, LAST_LOGIN_DATE )
+                , LAST_LOGIN_TIME 		= COALESCE( #{lastLoginTime}, LAST_LOGIN_TIME )
+                , MASTER_USER_NAME 		= COALESCE( #{masterUserName}, MASTER_USER_NAME )
+                , EMPLOYEE_ID			= COALESCE( #{employeeID} , EMPLOYEE_ID )
+                , UPDATE_DATE 			= #{updateDate}
+                , UPDATE_TIME 			= #{updateTime}
+                , UPDATE_BY				= #{updateBy}
+            WHERE USER_NAME =  #{userName}
+            AND  USER_TYPE = #{userType}
+        ]]>
+    </update>
+
+</mapper>

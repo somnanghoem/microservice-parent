@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservices.productservice.repository.UserTokenInfoDAO">
+
+    <resultMap id="userTokenInfoDTO" type="UserTokenInfoDTO">
+        <result column="username"       property="userName" />
+        <result column="token"          property="token" />
+        <result column="issuedDate"    property="issuedDate" />
+        <result column="issuedTime"    property="issuedTime" />
+        <result column="expiredDate"   property="expiredDate" />
+        <result column="expiredTime"   property="expiredTime" />
+        <result column="remoteIP"      property="remoteIP" />
+        <result column="status"         property="status" />
+        <result column="usertype"       property="userType" />
+    </resultMap>
+
+    <select id="retrieveUserTokenInfo" resultType="userTokenInfoDTO">
+        <![CDATA[
+            SELECT USERNAME
+                , TOKEN
+                , issuedDate
+                ,issuedTime
+                ,expiredDate
+                ,expiredTime
+                ,remoteIP
+                ,STATUS
+                ,USERTYPE
+                FROM OUATH2_TOKEN
+            WHERE USERNAME = #{userName}
+                and STATUS = '0'
+            ]]>
+    </select>
+
+    <insert id="registerUserTokenInfo">
+        <![CDATA[
+			INSERT INTO OUATH2_TOKEN
+                ( USERNAME
+                , TOKEN
+                , issuedDate
+                ,issuedTime
+                ,expiredDate
+                ,expiredTime
+                ,remoteIP
+                ,STATUS
+                ,USERTYPE
+                )
+            values (
+                 #{userName}
+                ,#{token}
+                ,#{issuedDate}
+                ,#{issuedTime}
+                ,#{expiredDate}
+                ,#{expiredTime}
+                ,#{remoteIP}
+                ,#{status}
+                ,#{userType}
+            )
+         ]]>
+    </insert>
+
+    <update id="updateUserTokenInfo">
+        <![CDATA[
+            UPDATE OUATH2_TOKEN
+                   SET token 		= #{token}
+                    , issuedDate 	= #{issuedDate}
+                    , issuedTime  	= #{issuedTime}
+                    , expiredDate  = #{expiredDate}
+                    , expiredTime  = #{expiredTime}
+                    , remoteIP  	= COALESCE( #{remoteIP}, '')
+                    , STATUS  		= #{status}
+                    , USERTYPE   	= #{userType}
+            WHERE USERNAME = #{userName}
+        ]]>
+    </update>
+
+    <select id="retrieveUserTokenInfoByToken" resultType="userTokenInfoDTO">
+        <![CDATA[
+            SELECT USERNAME
+                , TOKEN
+                , issuedDate
+                ,issuedTime
+                ,expiredDate
+                ,expiredTime
+                ,remoteIP
+                ,STATUS
+                ,USERTYPE
+                FROM OUATH2_TOKEN
+            WHERE TOKEN = #{token}
+                and STATUS = '0'
+            ]]>
+    </select>
+
+</mapper>

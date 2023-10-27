@@ -52,7 +52,7 @@ public class TokenUtil {
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer( generateUserTokenRequst.getUserName() )
                 .issuedAt(now)
-                .expiresAt(now.plus(5, ChronoUnit.MINUTES ) )
+                .expiresAt(now.plus(30, ChronoUnit.MINUTES ) )
                 .subject( generateUserTokenRequst.getUserName() )
                 .build();
         return  accessTokenEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
