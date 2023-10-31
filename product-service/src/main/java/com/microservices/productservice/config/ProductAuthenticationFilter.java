@@ -46,6 +46,7 @@ public class ProductAuthenticationFilter implements WebFilter {
         String userName = "";
         String token = "";
         String requestURL = String.valueOf(request.getURI());
+        System.out.println(">>>Product Filter Start>>>");
         // Validate Authorization header
         if ( !requestURL.contains("/api/security/v1/token") && ( requestTokenHeader == null || requestTokenHeader.isEmpty()) ) {
             ResponseHeader header = new ResponseHeader();
@@ -67,6 +68,7 @@ public class ProductAuthenticationFilter implements WebFilter {
                 UserTokenInfoDTO userTokenParam = new UserTokenInfoDTO();
                 userTokenParam.setToken(token);
                 UserTokenInfoDTO userTokenInfo = userTokenInfoDAO.retrieveUserTokenInfoByToken(userTokenParam);
+                System.out.println(">>>Product userTokenInfo >>>"+ userTokenInfo );
                 if ( userTokenInfo == null ) {
                     throw new Exception( ResponseResultMessage.TOKEN_NOT_FOUND.getValue());
                 } else {
@@ -96,12 +98,13 @@ public class ProductAuthenticationFilter implements WebFilter {
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
             context.setAuthentication(authentication);
             SecurityContextHolder.setContext(context);
+            System.out.println(">>>Product Filter Authentication>>>");
             /********************************************************************************
              * Do not use SecurityContextHolder.getContext().setAuthentication(authentication)
              * to avoid race conditions across multiple threads
              *********************************************************************************/
         }
-
+        System.out.println(">>>Product Filter end>>>");
         return chain.filter(exchange);
     }
 

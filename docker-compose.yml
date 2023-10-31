@@ -1,0 +1,83 @@
+
+version: '3.7'
+services:
+  ## Docker Compose Config
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Norti@2022$
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres:/data/postgres
+    expose:
+      - "5433"
+    ports:
+      - "5433:5433"
+    command: -p 5432
+    restart: always
+
+  ## Eureka Server
+  discovery-server:
+    image: microservices/discovery-server:latest
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    #depends_on:
+     # - zipkin
+
+  api-gateway:
+    image: microservices/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "6058:6058"
+    expose:
+      - "6058"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+    depends_on:
+      - postgres
+      - discovery-server
+
+  ## Product-Service Docker Compose Config
+  product-service:
+    container_name: product-service
+    image: microservices/product-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+    depends_on:
+      - postgres
+      - discovery-server
+      - api-gateway
+
+  ## Order-Service Docker Compose Config
+  order-service:
+    container_name: order-service
+    image: microservices/order-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+    depends_on:
+      - postgres
+      - discovery-server
+      - api-gateway
+
+  ## security-Service Docker Compose Config
+  security-service:
+    container_name: security-service
+    image: microservices/security-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+    depends_on:
+      - postgres
+      - discovery-server
+      - api-gateway
+
+

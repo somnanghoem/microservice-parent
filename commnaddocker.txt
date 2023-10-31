@@ -1,0 +1,16 @@
+1. docker build -t apigateway-dockerfile .
+2. to show image use: docker images
+3. docker build -t apigateway-layered -f Dockerfile.layered .
+
+
+----------- Multi -----------
+1: mvn clean compile jib:build
+2: docker compose up -d
+3: check running: docker logs -f api-gateway
+
+------- access postgresql ----------
+
+1: docker exec -it <cont-name> bash : access
+2: psql -h localhost -U postgres : access
+3: \l : show
+4: \c tsl_employee; : access database tsl_employee

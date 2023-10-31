@@ -48,6 +48,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 UserTokenInfoDTO userTokenParam = new UserTokenInfoDTO();
                 userTokenParam.setToken(token);
                 UserTokenInfoDTO userTokenInfo = userTokenInfoDAO.retrieveUserTokenInfoByToken(userTokenParam);
+                System.out.println(">>>Security Service User Info >>>" + userTokenInfo.toString());
                 if ( userTokenInfo == null ) {
                     throw new Exception( ResponseResultMessage.TOKEN_NOT_FOUND.getValue());
                 } else {

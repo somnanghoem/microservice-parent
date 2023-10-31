@@ -46,8 +46,10 @@ public class APIAuthenticationFilter implements WebFilter {
         String userName = "";
         String token = "";
         String requestURL = String.valueOf(request.getURI());
+        System.out.println(">>>API Filter Start>>>");
         // Validate Authorization header
         if ( !requestURL.contains("/api/security/v1/token") && ( requestTokenHeader == null || requestTokenHeader.isEmpty()) ) {
+
             ResponseHeader header = new ResponseHeader();
             header.setSuccessYN("N");
             header.setResultCode( ResponseResultMessage.MISSING_AUTHORIZATION.getValue() );
@@ -67,6 +69,7 @@ public class APIAuthenticationFilter implements WebFilter {
                 UserTokenInfoDTO userTokenParam = new UserTokenInfoDTO();
                 userTokenParam.setToken(token);
                 UserTokenInfoDTO userTokenInfo = userTokenInfoDAO.retrieveUserTokenInfoByToken(userTokenParam);
+                System.out.println(">>>API userTokenInfo>>>" + userTokenInfo.toString());
                 if ( userTokenInfo == null ) {
                     throw new Exception( ResponseResultMessage.TOKEN_NOT_FOUND.getValue());
                 } else {
@@ -96,12 +99,13 @@ public class APIAuthenticationFilter implements WebFilter {
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
             context.setAuthentication(authentication);
             SecurityContextHolder.setContext(context);
+            System.out.println(">>>API Authentication>>>");
             /********************************************************************************
              * Do not use SecurityContextHolder.getContext().setAuthentication(authentication)
              * to avoid race conditions across multiple threads
              *********************************************************************************/
         }
-
+        System.out.println(">>>API Filter END>>>");
         return chain.filter(exchange);
     }
 
