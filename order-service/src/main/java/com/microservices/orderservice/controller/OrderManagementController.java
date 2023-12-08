@@ -6,6 +6,8 @@ import com.microservices.orderservice.model.OrderListResponse;
 import com.microservices.orderservice.service.APIConnectorService;
 import com.microservices.orderservice.service.OrderManagementService;
 import com.util.responseutil.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +30,11 @@ public class OrderManagementController {
    @Autowired
    PropertiesPlaceholderConfiguration propertiesConfig;
 
+    private static final Logger log = LoggerFactory.getLogger(OrderManagementController.class);
+
    @PostMapping("/get-list-order")
     public ResponseData<DataUtil>  retrieveListOrderInfo(@RequestBody RequestData<DataUtil> param ) throws  Exception {
-
+        log.info(">>>>>>>>>> retrieveListOrderInfo>>>>>>>>>>");
        try {
            System.out.println( param );
            List<OrderListResponse> orderListResponseList = new ArrayList<>();

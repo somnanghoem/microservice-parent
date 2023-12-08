@@ -43,6 +43,7 @@ public class OrderAuthenticationFilter implements WebFilter {
 
         ServerHttpRequest request = exchange.getRequest();
         String requestTokenHeader = request.getHeaders().toSingleValueMap().get("authorization");
+        String headersss = request.getHeaders().toSingleValueMap().get("content-type");
         String userName = "";
         String token = "";
         String requestURL = String.valueOf(request.getURI());

@@ -15,9 +15,9 @@ public class WebClientConfig {
         return WebClient.builder();
     }
 
-    @Bean
+   /* @Bean
     @LoadBalanced
     public RestTemplate restTemplate(){
         return  new RestTemplate();
-    }
+    }*/
 }

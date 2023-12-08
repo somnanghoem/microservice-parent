@@ -8,6 +8,9 @@ import com.microservices.productservice.service.APIConnectorService;
 import com.microservices.productservice.service.ProductManagementService;
 import com.util.responseutil.service.ResponseResultMessageService;
 import com.util.responseutil.util.*;
+import io.micrometer.observation.annotation.Observed;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,13 +33,17 @@ public class ProductManagementController {
     ProductManagementService productManagementService;
     @Autowired
     PropertiesPlaceholderConfiguration propertiesConfig;
+    private static final Logger log = LoggerFactory.getLogger(ProductManagementController.class);
+
     @PostMapping("/product")
     public String hello(){
         return "hello";
     }
+
+    @Observed
     @PostMapping(value = "/get-list-product" )
     public ResponseEntity<ResponseData> retrieveListOrderInfo(@RequestBody RequestData<DataUtil> requestData ) throws  Exception {
-
+        log.info("Got a request");
         ResponseData<List<ProductListResponse>> responseData = new ResponseData<>();
         try {
             List<ProductListResponse> body = new ArrayList<>();
@@ -57,7 +64,14 @@ public class ProductManagementController {
             String url = propertiesConfig.getOrderService().concat( "/get-list-order");
             ResponseData<Map<String, Objects>> responseResult =  aPIConnectorService.postRequest( requestBody , url );
 
-            //System.out.println( responseResult.getBody().get("orderList"));
+            if ( "N".equals( responseResult.getHeader().getSuccessYN() ) ) {
+                header.setSuccessYN("N");
+                header.setResultMessage(responseResult.getHeader().getResultMessage());
+                header.setResultCode(responseResult.getHeader().getResultCode());
+                body = new ArrayList<>();
+            }
+
+            System.out.println( responseResult.getBody().get("orderList"));
 
             responseData = new ResponseData<>(header, body);
 

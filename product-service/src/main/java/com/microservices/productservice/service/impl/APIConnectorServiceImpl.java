@@ -27,6 +27,8 @@ public class APIConnectorServiceImpl implements APIConnectorService {
              *************************************/
             Mono<ResponseData> responseData  = webClientBuilder.build().post()
                     .uri(url)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .header("Authorization", "Bearer blahblahblahblah")
                     .bodyValue( requestData )
                     .retrieve()
                     .bodyToMono(ResponseData.class);
